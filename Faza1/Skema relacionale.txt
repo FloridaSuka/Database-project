@@ -1,0 +1,8 @@
+Skema relacionale
+
+Tavolina( tid : string , statusi : string)
+Stafi (sid: string, semri: string, smbiemri: string, numriPersonal: string, roli: string, paga: real, sadresa: string, snumritelefonit: string, dataePunesimit: date )
+Konsumatori(kid: string, kemri: string , kmbiemri : string , ktelefoni : string, kadresa: string )
+Rezervimet (rid: string , dataRezervimit: date, dataRezervuar: date,numriPersonave: string, koha: time,  sid: string , kid: string, tid: string, vitiAnulimit:string, anulimi :bool)
+Porosia(pid: string , tid: string, sid: string , artikujt :string , dataPorosise : date, tipi: string )
+Menu (mid: string, kategoria: string , ushqimi : string, pershkrimi: string, cmimi: Real )

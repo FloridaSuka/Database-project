@@ -1,0 +1,56 @@
+1. Listoni të gjithë konsumatorët që janë nga qyteti i Prishtinës.
+
+r3(Kid, Kemri, Kmbiemri) :-
+    konsumatori(Kid, Kemri, Kmbiemri, _, 'Prishtine').
+
+?-r3(Kid, Kemri, Kmbiemri) 
+
+2. Cilët konsumatorë (Emrin dhe Mbiemrin e tyre) kanë rezervuar te pakten dy here gjate vitit 2022?
+
+r6(Kid, Data) :-
+    rezervimet(_, Data, _, _, _, _, Kid, _, _, _),
+    Data=date(2022, _, _).
+r7(Kid) :-
+    r6(Kid, Data1),
+    r6(Kid, Data2),
+    Data1 \= Data2.
+rezultati2(Kemri, Kmbiemri) :-
+    r7(Kid),
+    konsumatori(Kid, Kemri, Kmbiemri, _, _).
+
+?-rezultati2(Kemri, Kmbiemri)
+
+
+3. Listoni konsumatoret te cilet e kane anuluar rezervimin e tyre te pakten nje here gjate vitit 2021 ose 2022.
+
+r1(Kid, Kemri, Kmbiemri, Ktelefoni, Kadresa) :-
+    rezervimet(_, _, _, _, _, _, Kid, _, _, Anulimi),
+    (Anulimi='TRUE'),
+    konsumatori(Kid, Kemri, Kmbiemri, Ktelefoni, Kadresa).
+r2(Kid, Kemri, Kmbiemri, Ktelefoni, Kadresa) :-
+    rezervimet(_, _, _, _, _, _, Kid, _, VitiAnulimit, _),
+    (VitiAnulimit = '2021' ; VitiAnulimit = '2022'),
+    konsumatori(Kid, Kemri, Kmbiemri, Ktelefoni, Kadresa).
+rezultati3(Kid, Kemri, Kmbiemri, Ktelefoni, Kadresa) :-
+    r1(Kid, Kemri, Kmbiemri, Ktelefoni, Kadresa),
+    r2(Kid, Kemri, Kmbiemri, Ktelefoni, Kadresa).
+
+?-rezultati3(Kid, Kemri, Kmbiemri, Ktelefoni, Kadresa)
+
+
+4. Listoni stafin që kanë pagën mbi 500 euro (emer, mbiemer) ose konsumatoret qe kane rezevuar me daten 01/01/2023 (emer, mbiemer) 
+
+r4(Semri, Smbiemri) :-
+    stafi(_, Semri, Smbiemri, _, _, Paga, _, _, _),
+    Paga > 500.
+r5(Kemri, Kmbiemri) :-
+    rezervimet(_, date(2023, 1, 1), _, _, _, _, Kid, _, _, _),
+    konsumatori(Kid, Kemri, Kmbiemri, _, _).
+rezultati4(Emri, Mbiemri) :-
+    (r4(Emri, Mbiemri) ; r5(Emri, Mbiemri)).
+
+?-rezultati4(Emri, Mbiemri)
+
+
+
+
