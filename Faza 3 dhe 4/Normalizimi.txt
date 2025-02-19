@@ -1,0 +1,77 @@
+--Tabela "Tavolina"
+(Tid, Statusi)
+
+*Tabela eshte e normalizuar, nuk ka lendim*
+____________________________________________________________________________________________________________________________________________________________
+
+--Tabela "Stafi"
+(Sid, Semri, Smbiemri, Numri personal, Roli, Paga, Sadresa, Numri i telefonit, Data e punesimit)
+
+1) Kolonen "Sadresa" permban rrugen, numrin dhe qytetin.(Lendim, eshte ne kundershtim me formen normale 1NF)
+2) Roli percakton pagen dhe kjo eshte nje varesi transitive, sepse "Paga" varet nga "Roli", i cili varet nga "Sid".(Lendim, eshte ne kundershtim me normalizimin 3NF)
+
+Zgjidhje:
+  --Kolonen "Sadresa" e largojm nga tabela "Stafi" dhe krijojm nje table te re Adresa("Sid", "Rruga", "Nr.", "Qyteti") e cila permban kolonat "Rruga", "Nr." dhe "Qyteti".
+  Duhet të ndajmë tabelën në disa tabela më të vogla që eliminojnë varësitë tranzitive dhe mbajnë varësitë drejtpërdrejt nga Sid.
+  --Tabela Stafi("Sid", "Emri", "Mbiemri", "Numri personal", "Numri i telefonit", "Data e punesimit", "RPid) permban informacionet personale te punojseve dhe daten  punesimit.
+  --Tabela Roli dhe Paga("RPid", "Roli", "Paga") 
+ 
+Me këto hapa:
+1.Eliminova varësitë tranzitive dhe të panevojshme.
+2.Çdo atribut lidhet drejtpërdrejt ose indirekt me çelësin primar (Sid).
+3.Struktura e të dhënave është më e organizuar dhe e lehtë për mirëmbajtje.
+____________________________________________________________________________________________________________________________________________________________
+
+--Tabela "Konsumatori"
+(Kid, Kemri, Kmbiemri, Ktelefoni, Kadresa)
+
+1) Paraqitet redudanca te kolona "Kadresa", pasiqe "Prishtine" persertitet disa here.(Lendim, eshte ne kundershtim me normalizimin 2NF)
+
+Zgjidhje:
+Krijojm nje tabele te vecante per adresat per te ruajtur vetem adresat dhe i lidhim ato me kete tabele duke perdorur nje celes te huaj.
+ --Tabela Adresa"("Aid", "Adresa")
+ --Tabela Konsumatori("Kid", "Emri", "Mbiemri", "Ktelefoni", "Aid")
+
+Përfitimet e eliminimit të redundancës:
+1.Reduktohet përsëritja e të dhënave në tabelë.
+2.Adresat mund të mirëmbahen më lehtë (p.sh., nëse duhet ndryshuar "Prishtinë" në "Prishtina," mjafton ta ndryshojmë vetëm një herë).
+3.Rrit efikasitetin dhe qëndrueshmërinë e të dhënave.
+
+___________________________________________________________________________________________________________________________________________________________
+
+--Tabela "Rezervimet"
+(Rid, Data e rezervimit, Data e rezervuar, Numri i personave, Koha, Sid, Kid, Tid, Viti i anulimit, Anulimi)
+
+Tabela eshte e normalizuar ne 1NF, 3NF, BCF por mund ta ndajmë tabelën në disa tabela më të vogla, duke ruajtur integritetin referencial. Më poshtë, paraqiten hapat e normalizimit:
+
+ --Tabela Rezervimet ("Rid", "Data e rezervimit", "Data e rezervuar", "Numri i personave", "Koha", "Sid", "Kid", "Tid")
+ --Tabela Anulimi ("Rid", "Viti i anulimit", "Anulimi")
+
+Kjo strukturë i ndan të dhënat për të shmangur redudancën dhe për të lehtësuar mirëmbajtjen.
+____________________________________________________________________________________________________________________________________________________________
+
+--Tabela "Porosia"
+(Pid, Tid, Sid, Artikujt, Data e porosis, Tipi)
+
+Tabela eshte e normalizuar ne 1NF, 3NF dhe BCNF por megjithate permban redudanc.
+
+Zgjidhje:
+Mund ta ndajmë në tabela më të vogla për modularizim dhe për të shmangur redundancën.
+--Tabel Porosia("Pid", "Tid", "Sid", "Data e porosis", "Tipi")
+--Tabela Artikujt("Pid", "Artikulli")
+
+Tabela origjinale nuk kishte lëndime. Megjithatë, ndarja në tabela më të vogla ndihmon në menaxhimin më të lehtë të të dhënave dhe shmangien e redundancës.
+____________________________________________________________________________________________________________________________________________________________
+
+--Tabela "Menu"
+(Mid, Kategoria, Ushqimi, Pershkrimi, Cmimi)
+
+1)Përshkrimi dhe çmimi përsëriten për çdo artikull, edhe pse mund të lidhen vetëm me Ushqimin.(Lendim, eshte ne kundershtim me normalizimin 2NF)
+2) Varesia tranzitive Mid->Ushqimi -> (Kategoria, Përshkrimi, Çmimi) Kjo tregon se tabela nuk është në 3NF, pasi ka varësi të pjesshme dhe tranzitive.
+
+Zgjidhje:
+Ndahet tabela në dy tabela për të eliminuar varësinë e pjesshme dhe tranzitive:
+--Tabela Artikujt e Menus("Mid", "Ushqimi")-Mid qelesi kryesor
+--Tabela Ushqimi ("Ushqimi", "Kategoria"," Pershkrimi", "Cmimi")-Ushqimi qeles kryesore
+
+Kjo ndarje eleminon redudancën dhe siguron integritet më të lartë të të dhënave.
